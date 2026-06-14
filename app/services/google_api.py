@@ -1,14 +1,14 @@
 from datetime import datetime
 
 from aiogoogle import Aiogoogle
-from fastapi.concurrency import run_in_threadpool
+# from fastapi.concurrency import run_in_threadpool
 
-from app.core.google_client import SHEETS_SERVICE
+# from app.core.google_client import SHEETS_SERVICE
 from app.core.config import settings
 
 FORMAT = "%Y/%m/%d %H:%M:%S"
 
-
+"""
 # OAuth 2.0
 async def create_spreadsheets_oauth() -> str:
     now_date_time = datetime.now().strftime(FORMAT)
@@ -68,9 +68,11 @@ async def update_spreadsheets_value_oauth(
             body=update_body
         ).execute()
     )
-
+"""
 
 # Service Account
+
+
 async def create_spreadsheets(wrapper_services: Aiogoogle) -> str:
     now_date_time = datetime.now().strftime(FORMAT)
     service = await wrapper_services.discover('sheets', 'v4')

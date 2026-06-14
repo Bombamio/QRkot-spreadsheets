@@ -12,9 +12,9 @@ class Settings(BaseSettings):
     first_superuser_password: Optional[str] = 'root'
 
     # OAuth 2.0
-    project_id_oauth: Optional[str] = None
-    client_id_oauth: Optional[str] = None
-    client_secret_oauth: Optional[str] = None
+    # project_id_oauth: Optional[str] = None
+    # client_id_oauth: Optional[str] = None
+    # client_secret_oauth: Optional[str] = None
 
     # Service Account
     type: Optional[str] = None

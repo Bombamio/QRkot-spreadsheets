@@ -8,13 +8,13 @@ from app.crud.charity_projects import charity_projects_crud
 from app.core.google_client import get_service
 from app.models import CharityProject
 from app.services.google_api import (
-    create_spreadsheets_oauth, update_spreadsheets_value_oauth,
+    # create_spreadsheets_oauth, update_spreadsheets_value_oauth,
     create_spreadsheets, set_user_permissions, update_spreadsheets_value
 )
 
 router = APIRouter()
 
-
+"""
 # OAuth 2.0
 @router.post(
     '/oauth',
@@ -34,9 +34,11 @@ async def get_report_oauth(
         projects
     )
     return projects
-
+"""
 
 # Service Account
+
+
 @router.post(
     '/',
     response_model=list[CharityProject],
