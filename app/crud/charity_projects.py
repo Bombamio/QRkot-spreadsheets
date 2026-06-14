@@ -1,7 +1,6 @@
 from typing import Optional
-from datetime import datetime
 
-from sqlalchemy import and_, between, func, or_, select
+from sqlalchemy import func, select
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,7 +23,7 @@ class CRUDECharityProject(CRUDBase):
     async def get_projects_by_completion_rate(
             self,
             session: AsyncSession,
-    ) -> list[dict]:
+    ) -> list[CharityProject]:
         projects = await session.execute(
             select(
                 self.model,
@@ -35,15 +34,7 @@ class CRUDECharityProject(CRUDBase):
                 func.julianday(self.model.create_date)
             )
         )
-        result = [
-            {
-                'name': prj.name,
-                'close_date': prj.close_date,
-                'create_date': prj.create_date,
-                'description': prj.description
-            } for prj in projects.scalars().all()
-        ]
-        return result
+        return projects.scalars().all()
 
 
 charity_projects_crud = CRUDECharityProject(CharityProject)
