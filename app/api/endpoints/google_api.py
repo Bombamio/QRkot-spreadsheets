@@ -6,7 +6,6 @@ from app.core.db import get_async_session
 from app.core.user import current_superuser
 from app.crud.charity_projects import charity_projects_crud
 from app.core.google_client import get_service
-from app.models import CharityProject
 from app.services.google_api import (
     # create_spreadsheets_oauth, update_spreadsheets_value_oauth,
     create_spreadsheets, set_user_permissions, update_spreadsheets_value
@@ -18,7 +17,6 @@ router = APIRouter()
 # OAuth 2.0
 @router.post(
     '/oauth',
-    response_model=list[CharityProject],
     dependencies=[Depends(current_superuser)],
 )
 async def get_report_oauth(
@@ -41,7 +39,6 @@ async def get_report_oauth(
 
 @router.post(
     '/',
-    response_model=list[CharityProject],
     dependencies=[Depends(current_superuser)],
 )
 async def get_report(
