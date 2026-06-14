@@ -31,30 +31,30 @@ INFO = {
     }
 }
 
-creds = None
-
-if os.path.exists('token.pickle'):
-    with open('token.pickle', 'rb') as token:
-        creds = pickle.load(token)
-
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_config(
-            INFO,
-            SCOPES
-        )
-        creds = flow.run_local_server(port=0)
-
-    with open('token.pickle', 'wb') as token:
-        pickle.dump(creds, token)
-
-SHEETS_SERVICE = discovery.build(
-    'sheets',
-    'v4',
-    credentials=creds
-)
+# creds = None
+#
+# if os.path.exists('token.pickle'):
+#     with open('token.pickle', 'rb') as token:
+#         creds = pickle.load(token)
+#
+# if not creds or not creds.valid:
+#     if creds and creds.expired and creds.refresh_token:
+#         creds.refresh(Request())
+#     else:
+#         flow = InstalledAppFlow.from_client_config(
+#             INFO,
+#             SCOPES
+#         )
+#         creds = flow.run_local_server(port=0)
+#
+#     with open('token.pickle', 'wb') as token:
+#         pickle.dump(creds, token)
+#
+# SHEETS_SERVICE = discovery.build(
+#     'sheets',
+#     'v4',
+#     credentials=creds
+# )
 
 
 # Service Account
