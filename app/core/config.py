@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     client_x509_cert_url: Optional[str] = None
     email: Optional[str] = None
 
-    model_config = SettingsConfigDict(env_file='.env')
+    model_config = SettingsConfigDict(env_file='.env', extra="ignore")
 
 
 settings = Settings()
