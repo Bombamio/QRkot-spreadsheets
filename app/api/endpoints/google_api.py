@@ -55,4 +55,8 @@ async def get_report(
         projects,
         wrapper_services
     )
-    return projects
+    return {
+        'report_url': (
+            f'https://docs.google.com/spreadsheets/d/{spreadsheetid}'
+        )
+    }

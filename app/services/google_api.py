@@ -1,10 +1,11 @@
+from copy import deepcopy
 from datetime import datetime
 
 from aiogoogle import Aiogoogle
 # from fastapi.concurrency import run_in_threadpool
 
 # from app.core.google_client import SHEETS_SERVICE
-from app.core.config import settings
+from app.core.constants import SPREADSHEET_BODY_TEMPLATE, PERMISSIONS_BODY
 
 FORMAT = "%Y/%m/%d %H:%M:%S"
 
@@ -73,23 +74,20 @@ async def update_spreadsheets_value_oauth(
 # Service Account
 
 
-async def create_spreadsheets(wrapper_services: Aiogoogle) -> str:
+async def create_spreadsheets(
+    wrapper_services: Aiogoogle,
+    spreadsheet_body: dict | None = None,
+) -> str:
     now_date_time = datetime.now().strftime(FORMAT)
     service = await wrapper_services.discover('sheets', 'v4')
-    spreadsheet_body = {
-        'properties': {
-            'title': f'Отчёт на {now_date_time}',
-            'locale': 'ru_RU'
-        },
-        'sheets': [{'properties': {
-                    'sheetType': 'GRID',
-                    'sheetId': 0,
-                    'title': 'Лист1',
-                    'gridProperties': {
-                        'rowCount': 100,
-                        'columnCount': 11
-                    }}}]
-    }
+
+    spreadsheet_body = deepcopy(
+        spreadsheet_body or SPREADSHEET_BODY_TEMPLATE
+    )
+    spreadsheet_body['properties']['title'] = (
+        f'Отчёт на {now_date_time}'
+    )
+
     response = await wrapper_services.as_service_account(
         service.spreadsheets.create(json=spreadsheet_body)
     )
@@ -102,16 +100,12 @@ async def set_user_permissions(
         spreadsheetid: str,
         wrapper_services: Aiogoogle
 ) -> None:
-    permissions_body = {
-        'type': 'user',
-        'role': 'writer',
-        'emailAddress': settings.email
-    }
+
     service = await wrapper_services.discover('drive', 'v3')
     await wrapper_services.as_service_account(
         service.permissions.create(
             fileId=spreadsheetid,
-            json=permissions_body,
+            json=PERMISSIONS_BODY,
             fields="id"
         ))
 
